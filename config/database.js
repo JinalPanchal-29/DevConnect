@@ -4,4 +4,4 @@ const connectDB = async () => {
     await mongoose.connect(process.env.CONNECTION_STR)
 }
 
-module.exports = { connectDB }
+module.exports = connectDB
