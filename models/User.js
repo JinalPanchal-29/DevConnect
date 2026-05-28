@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const validator = require('validator')
 
 const userSchema = new Schema({
-    firstname: String,
+    firstName: String,
     lastName: String,
     userName: {
         type: String,
@@ -37,8 +37,8 @@ const userSchema = new Schema({
         }
     },
     age: {
-        type: Number,
-        min: 16
+        type: String,
+        required: true,
     },
     email: {
         type: String,
