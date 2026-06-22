@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const { Schema } = mongoose;
 const validator = require('validator')
 
@@ -60,12 +62,24 @@ const userSchema = new Schema({
             },
             message: "Invalid Phone Number"
         }
+    },
+    about: {
+        type: String,
+        default: ""
+    },
+    skills: {
+        type: [String],
+        default: []
+    },
+    imageUrl: {
+        type: String,
+        default: ""
     }
 }, {
     timestamps: true
 })
 
-userSchema.methods.getJWT = async function() {
+userSchema.methods.getJWT = async function () {
     const user = this
 
     const token = await jwt.sign({
@@ -76,7 +90,7 @@ userSchema.methods.getJWT = async function() {
     return token;
 }
 
-userSchema.methods.validatePassword = async function(passwordEnteredByUser) {
+userSchema.methods.validatePassword = async function (passwordEnteredByUser) {
     const user = this
     const hashedPassword = this.password
 

@@ -63,12 +63,13 @@ authRouter.post('/login', async (req, res) => {
         }
 
         if (!user) {
-            res.status(400).json({ message: 'User does not exist! Please Sign Up!' })
+            return res.status(400).json({ message: 'User does not exist! Please Sign Up!' })
         }
 
-        if (!user.validatePassword(password)) {
+        const isPasswordCorrect = await user.validatePassword(password)
+        if (!isPasswordCorrect) {
             return res.status(400).json({
-                message: 'Invalid Credetials!'
+                message: 'Invalid Credentials!'
             })
         }
 
@@ -80,8 +81,12 @@ authRouter.post('/login', async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000
         })
 
+        const userObj = user.toObject()
+        delete userObj.password
+
         res.status(200).json({
-            message: 'Login successful'
+            message: 'Login successful',
+            user: userObj
         })
 
     } catch (error) {

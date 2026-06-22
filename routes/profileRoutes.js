@@ -30,7 +30,10 @@ profileRouter.patch('/updateProfile', auth, async (req, res) => {
       'lastName',
       'age',
       'gender',
-      'phoneNumber'
+      'phoneNumber',
+      'about',
+      'skills',
+      'imageUrl'
     ];
 
     const updates = Object.keys(req.body);

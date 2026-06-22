@@ -24,20 +24,20 @@ const connectionRequestSchema = new Schema({
     timestamps: true
 })
 
-connectionRequestSchema.pre('save', async function (next) {
+connectionRequestSchema.pre('save', async function () {
     const connectionRequest = this;
-    const existingRequest = await mongoose.model('connectionRequest').findOne({
+
+    const existingRequest = await mongoose.model('ConnectionRequest').findOne({
         $or: [
             { fromUserId: connectionRequest.fromUserId, toUserId: connectionRequest.toUserId },
             { fromUserId: connectionRequest.toUserId, toUserId: connectionRequest.fromUserId }
-        ]
+        ],
+        _id: { $ne: connectionRequest._id }
     })
 
     if (existingRequest) {
         throw new Error('Connection request already exists!')
     }
-
-    next();
 })
 
 
